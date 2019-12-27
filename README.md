@@ -1,5 +1,5 @@
 # bmshash
-Print hashs(md5 and sha256) of bms file
+Print hashes(md5 and sha256) of bms file
 
 ## Usage
 ```
