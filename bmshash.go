@@ -4,6 +4,7 @@ import (
   "fmt"
   "os"
   "flag"
+  "strings"
   "io/ioutil"
   "path/filepath"
   "crypto/sha256"
@@ -23,7 +24,7 @@ func isBmsPath(path string) bool {
   ext := filepath.Ext(path)
   bmsExts := []string{".bms", ".bme", ".bml", ".pms", ".bmson"}
   for _, be := range bmsExts {
-    if ext == be {
+    if strings.ToLower(ext) == be {
       return true
     }
   }
@@ -90,12 +91,17 @@ func main() {
   )
   flag.Parse()
 
-  if len(flag.Args()) != 1 {
+  if len(flag.Args()) > 1 {
     fmt.Println("Usage: bmshash [option] <bmspath/dirpath>")
     os.Exit(1)
   }
 
-  path := flag.Arg(0)
+  var path string
+  if len(flag.Args()) == 0 {
+    path = "./"
+  } else {
+    path = flag.Arg(0)
+  }
   fInfo, err := os.Stat(path)
   if err != nil {
     fmt.Println("Path is wrong: ", err.Error())
