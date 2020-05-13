@@ -11,13 +11,6 @@ import (
   "crypto/md5"
 )
 
-type myError struct {
-  msg string
-}
-func (e myError) Error() string {
-  return e.msg
-}
-
 const BUFSIZE = 1024
 
 func isBmsPath(path string) bool {
@@ -34,7 +27,7 @@ func isBmsPath(path string) bool {
 func loadBms(path string) (string, error) {
   file, err := os.Open(path)
   if err != nil {
-    return "", myError{"BMS open error : " + err.Error()}
+    return "", fmt.Errorf("BMS open error : " + err.Error())
   }
   defer file.Close()
 
@@ -46,7 +39,7 @@ func loadBms(path string) (string, error) {
       break
     }
     if err != nil {
-      return "", myError{"BMS read error : " + err.Error()}
+      return "", fmt.Errorf("BMS read error : " + err.Error())
     }
 
     str += string(buf[:n])
